@@ -436,17 +436,17 @@ console.log('Test 21: getDynamicFileWeight — recent daily files');
   const fiveDaysAgo = new Date(now - 5 * 86400000).toISOString().split('T')[0];
   const twoWeeksAgo = new Date(now - 14 * 86400000).toISOString().split('T')[0];
 
-  // Today's file → 2.5x
-  assert(getDynamicFileWeight(`memory/${today}.md`, 1.0, now) === 2.5,
-    `Today's file should get 2.5x, got ${getDynamicFileWeight(`memory/${today}.md`, 1.0, now)}`);
+  // Today's file → 1.8x (v9.1: reduced from 2.5x to limit same-day context bleeding)
+  assert(getDynamicFileWeight(`memory/${today}.md`, 1.0, now) === 1.8,
+    `Today's file should get 1.8x, got ${getDynamicFileWeight(`memory/${today}.md`, 1.0, now)}`);
 
-  // 2 days ago → 2.0x
-  assert(getDynamicFileWeight(`memory/${threeDaysAgo}.md`, 1.0, now) === 2.0,
-    `2-day-old file should get 2.0x, got ${getDynamicFileWeight(`memory/${threeDaysAgo}.md`, 1.0, now)}`);
+  // 2 days ago → 1.5x (v9.1: reduced from 2.0x)
+  assert(getDynamicFileWeight(`memory/${threeDaysAgo}.md`, 1.0, now) === 1.5,
+    `2-day-old file should get 1.5x, got ${getDynamicFileWeight(`memory/${threeDaysAgo}.md`, 1.0, now)}`);
 
-  // 5 days ago → 1.5x
-  assert(getDynamicFileWeight(`memory/${fiveDaysAgo}.md`, 1.0, now) === 1.5,
-    `5-day-old file should get 1.5x, got ${getDynamicFileWeight(`memory/${fiveDaysAgo}.md`, 1.0, now)}`);
+  // 5 days ago → 1.2x (v9.1: reduced from 1.5x)
+  assert(getDynamicFileWeight(`memory/${fiveDaysAgo}.md`, 1.0, now) === 1.2,
+    `5-day-old file should get 1.2x, got ${getDynamicFileWeight(`memory/${fiveDaysAgo}.md`, 1.0, now)}`);
 
   // 2 weeks ago → no boost (1.0x base)
   assert(getDynamicFileWeight(`memory/${twoWeeksAgo}.md`, 1.0, now) === 1.0,
@@ -458,7 +458,7 @@ console.log('Test 21: getDynamicFileWeight — recent daily files');
 
   // Math.max: config weight 3.0 should not be reduced
   assert(getDynamicFileWeight(`memory/${today}.md`, 3.0, now) === 3.0,
-    `Config weight 3.0 should not be reduced to 2.5`);
+    `Config weight 3.0 should not be reduced to 1.8`);
 }
 
 // ─── Test 22: score() applies dynamic file weight to daily files ───
@@ -477,9 +477,9 @@ console.log('Test 22: score() applies dynamic file weight to daily files');
   assert(scoreToday > scoreOld,
     `Today's daily file (${scoreToday.toFixed(3)}) should outrank 2-week-old (${scoreOld.toFixed(3)})`);
 
-  // The boost should be multiplicative — today gets 2.5x vs 1.0x
+  // The boost should be multiplicative — today gets 1.8x vs 1.0x (v9.1)
   const ratio = scoreToday / scoreOld;
-  assert(ratio > 2.0, `Score ratio should be >2.0x, got ${ratio.toFixed(2)}`);
+  assert(ratio > 1.5, `Score ratio should be >1.5x, got ${ratio.toFixed(2)}`);
 }
 
 // ─── Test 23: score() — value_score multiplier (v8) ───
