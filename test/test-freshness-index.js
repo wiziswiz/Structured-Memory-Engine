@@ -24,6 +24,12 @@ function createDb() {
   try { db.exec('ALTER TABLE chunks ADD COLUMN access_count INTEGER DEFAULT 0'); } catch (_) {}
   try { db.exec('ALTER TABLE chunks ADD COLUMN last_accessed TEXT'); } catch (_) {}
   try { db.exec('ALTER TABLE chunks ADD COLUMN stale INTEGER DEFAULT 0'); } catch (_) {}
+  try { db.exec('ALTER TABLE chunks ADD COLUMN recall_count INTEGER DEFAULT 0'); } catch (_) {}
+  try { db.exec('ALTER TABLE chunks ADD COLUMN unique_query_count INTEGER DEFAULT 0'); } catch (_) {}
+  try { db.exec("ALTER TABLE chunks ADD COLUMN query_hash_seen TEXT DEFAULT '[]'"); } catch (_) {}
+  try { db.exec('ALTER TABLE chunks ADD COLUMN protected INTEGER DEFAULT 0'); } catch (_) {}
+  try { db.exec('ALTER TABLE chunks ADD COLUMN superseded_by INTEGER'); } catch (_) {}
+  try { db.exec('ALTER TABLE chunks ADD COLUMN archived_at TEXT'); } catch (_) {}
   try { db.exec('ALTER TABLE chunks ADD COLUMN value_score REAL'); } catch (_) {}
   try { db.exec('ALTER TABLE chunks ADD COLUMN value_label TEXT'); } catch (_) {}
   try { db.exec('ALTER TABLE chunks ADD COLUMN content_updated_at TEXT'); } catch (_) {}
