@@ -129,7 +129,6 @@ const memoryPlugin = {
         if (hoursSince < 24) return;
         const result = await engine.reflect();
         api.logger?.info?.(`memory-sme: auto-reflect complete (decay: ${result.decay?.decayed ?? 0}, stale: ${result.stale?.marked ?? 0})`);
-        }
       })
       .catch((err: any) => {
         api.logger?.debug?.(`memory-sme: auto-reflect skipped: ${String(err)}`);
