@@ -2,7 +2,7 @@ node_modules/
 .memory/
 .DS_Store
 .env
-extensions/
+extensions/*/node_modules/
 data/
 docs/
 tools/sme-demo/
